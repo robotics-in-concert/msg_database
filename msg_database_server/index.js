@@ -1,6 +1,7 @@
 var _ = require('lodash'),
   MongoClient = require('mongodb').MongoClient,
   express = require('express'),
+  async = require('async'),
   exec = require('child_process').exec,
   CronJob = require('cron').CronJob;
 
@@ -26,10 +27,28 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
     cronTime: '0 0 * * * *', // every hour
     onTick: function(){
       console.log('sync!');
-      // 1. rosdistro
-      // 2. rosmsg list
-      // 3. python script
-      // 4. update db (+rev info)
+      async.waterfall([
+
+        // 1. rosdistro
+        //
+        // 2. rosmsg list
+        function(cb){
+          exec("rosmsg list", function(e, out, err){
+            var msgs = out.trim().split(/\n/);
+            cb(e, msgs);
+          });
+
+        },
+
+        // 3. python script
+        function(msgs, cb){
+
+        },
+        // 4. update db (+rev info)
+
+      ], function(e, result){
+        
+      });
 
 
       // example, run external command
@@ -40,7 +59,7 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
 
 
     },
-    start: false
+    start: true
   });
 
 
