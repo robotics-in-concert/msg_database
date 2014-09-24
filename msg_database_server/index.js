@@ -10,6 +10,8 @@ var _ = require('lodash'),
 
 MongoClient.connect(process.env.MONGO_URL, function(e, db){
   if(e) throw e;
+  var coll = db.collection('message_details');
+
   console.log('mongo connected');
 
   var app = express();
@@ -23,6 +25,17 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
     res.send("pong");
 
   });
+
+  app.get('/api/message_details', function(req, res){
+    var type = req.param.type;
+    
+    // TODO : fetch related types recursively
+    coll.findOne({type: type}, function(e, row){
+      res.send(row);
+    });
+
+  });
+
 
   var job = new CronJob({
     cronTime: '0 0 * * * *', // every hour
