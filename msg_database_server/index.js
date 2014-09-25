@@ -40,10 +40,11 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
   var job = new CronJob({
     cronTime: '0 0 * * * *', // every hour
     onTick: function(){
-      require('./sync')(db)();
+      require('./sync')(db);
     },
     start: true
   });
+
 
 
 
