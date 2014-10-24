@@ -5,6 +5,7 @@ from catkin_pkg.python_setup import generate_distutils_setup
 
 d = generate_distutils_setup(
     packages=['msg_database_scripts'],
+    scripts=['scripts/convert_msg_spec_to_json.py'],
 )
 
 setup(**d)
