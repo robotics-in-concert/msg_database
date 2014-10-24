@@ -17,7 +17,7 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
 
   var app = express();
 
-  server = app.listen(process.env.PORT, function(){
+  server = app.listen(process.env.MSG_DATABASE_PORT, function(){
     console.log('Listening on port %d (%s)', server.address().port, process.env.NODE_ENV);
   });
 
