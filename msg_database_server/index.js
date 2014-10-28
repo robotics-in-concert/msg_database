@@ -2,6 +2,7 @@ var _ = require('lodash'),
   MongoClient = require('mongodb').MongoClient,
   async = require('async'),
   express = require('express'),
+  path = require('path'),
   CronJob = require('cron').CronJob;
 
 
@@ -16,11 +17,78 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
   console.log('mongo connected');
 
   var app = express();
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'ejs');
 
   server = app.listen(process.env.MSG_DATABASE_PORT, function(){
     console.log('Listening on port %d (%s)', server.address().port, process.env.NODE_ENV);
   });
 
+  app.get('/message_detail', function(req, res){
+    var type = req.query.type;
+    if(_.isEmpty(type)) return res.status(400).send('error');
+
+    (function _fetch(type, done){
+      console.log("fetching "+type);
+
+      var results = []
+      coll.findOne({type: type}, function(e, row){
+        if(e) return done(e);
+        var detail = row.detail;
+        results.push(detail);
+        var subTypes = _.select(row.detail.fieldtypes, function(t){
+          return t.indexOf('/') >= 0;
+        });
+
+        if(!_.isEmpty(subTypes)){
+
+          async.reduce(subTypes, results, function(memo, t, redcb){
+            _fetch(t, function(e, res){
+              redcb(null, memo.concat(res));
+            });
+
+          }, function(err, final){
+            done(null, final);
+
+          });
+
+        }else{
+          done(null, results);
+        }
+
+      });
+
+    })(type, function(e, lst){
+      console.log("cnt", lst.length);
+      console.log(lst);
+
+      var targetType = _.find(lst, {type: type});
+      var tt = targetType.text;
+
+      var tokens = tt.split(" ")
+      console.log('(((((((((((((', tokens);
+
+      tt = _.map(tokens, function(token){
+        _.find(lst, function(item){
+          var _t = item.type.split(/\//)[1];
+          if(token.toLowerCase() == _t.toLowerCase()){
+            return "<a href='/message_detail?type="+token+"'>"+token+"</a>";
+          }
+          return token;
+
+        });
+
+      }).join(" ");
+      console.log(tt);
+
+      
+
+
+
+      res.render('message_type', {item: targetType, tt: tt});
+    });
+
+  });
 
   app.get('/api/ping', function(req, res){
     res.send("pong");
