@@ -65,21 +65,43 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
       var targetType = _.find(lst, {type: type});
       var tt = targetType.text;
 
-      var tokens = tt.split(" ")
-      console.log('(((((((((((((', tokens);
 
-      tt = _.map(tokens, function(token){
-        _.find(lst, function(item){
+      tt = tt.replace(/(?:^|\n)\s*#[^\n]+/g, "")
+      // tt = tt.split(/\n/).map(function(l){
+        // return l.replace(/^#.+$/g, "");
+
+      // }).join("\n");
+      tt = tt.replace(/\b(\w|\/)+\b/g, function(m){ 
+        var x = _.find(lst, function(item){
           var _t = item.type.split(/\//)[1];
-          if(token.toLowerCase() == _t.toLowerCase()){
-            return "<a href='/message_detail?type="+token+"'>"+token+"</a>";
+          if(m == item.type || m == _t){
+            return true;
           }
-          return token;
-
+          return false;
         });
+        if(x){
+          return "<a href='/message_detail?type="+x.type+"'>"+m+"</a>";
+        }else{
+          return m;
+        }
 
-      }).join(" ");
-      console.log(tt);
+      });
+
+      // var tokens = tt.split(" ")
+      // console.log('(((((((((((((', tokens);
+
+      // tt = _.map(tokens, function(token){
+        // _.find(lst, function(item){
+          // var _t = item.type.split(/\//)[1];
+          // if(token.toLowerCase() == _t.toLowerCase()){
+            // return "<a href='/message_detail?type="+token+"'>"+token+"</a>";
+          // }
+          // return token;
+
+        // });
+
+      // }).join(" ");
+      // console.log(tt);
 
       
 
