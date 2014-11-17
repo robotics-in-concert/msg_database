@@ -67,14 +67,21 @@ exports = module.exports = function(db){
       extract_rapp_meta(url, function(e, data){
         console.log(data);
 
-        types_to_load = _.map(data, function(interface){
-          return _.map(interface, function(v, k){
-            return _.pluck(v, 'type');
 
-          });
+        var coll_packages = db.collection('rapp_packages');
 
+        _.each(data, function(package_info){
+          coll_packages.insert(package_info);
         });
-        console.log(types_to_load);
+
+        // types_to_load = _.map(data, function(interface){
+          // return _.map(interface, function(v, k){
+            // return _.pluck(v, 'type');
+
+          // });
+
+        // });
+        // console.log(types_to_load);
 
         // types_to_load = _.compact(_.flatten(types_to_load));
 
