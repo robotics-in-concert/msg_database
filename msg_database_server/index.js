@@ -170,6 +170,9 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
   });
 
 
+  require('./rapp_sync')(db);
+
+
 
 
 });
