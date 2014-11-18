@@ -121,8 +121,10 @@ extract_rapp_meta = function(url, callback){
 
     ], function(e, results){
       console.log('------------------------------');
-      console.log(_.omit(results, 'base'));
-      console.log('------------------------------');
+      // console.log(_.omit(results, 'base'));
+      // console.log('------------------------------');
+      results = _.map(results, function(e){return _.omit(e, 'base');});
+      callback(null, results);
       rimraf.sync(dest);
 
 
@@ -201,11 +203,17 @@ exports = module.exports = function(db){
 
 
         var coll_packages = db.collection('rapp_packages');
+        console.log("packages : "+data.length);
 
-        _.each(data, function(package_info){
-          coll_packages.insert(package_info);
+
+        async.each(data, function(package_info, cb){
+          var nm = package_info.package.name;
+          console.log(nm + " sync");
+
+          coll_packages.update({name: nm}, {$set: package_info}, {w:1, upsert: true}, cb);
+        }, function(e, x){
+          console.log('rapp package - sync done');
         });
-
         // types_to_load = _.map(data, function(interface){
           // return _.map(interface, function(v, k){
             // return _.pluck(v, 'type');
