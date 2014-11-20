@@ -121,7 +121,7 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
     var coll = db.collection('rapp_packages');
 
     coll.find({}).toArray(function(e, rows){
-      var interfaces = _.map(rows, 'interfaces');
+      var interfaces = _.flatten(_.map(rows, 'interfaces'));
 
       res.send(interfaces);
 
