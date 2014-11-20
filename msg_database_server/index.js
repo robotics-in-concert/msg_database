@@ -34,23 +34,28 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
       var results = []
       coll.findOne({type: type}, function(e, row){
         if(e) return done(e);
-        var detail = row.detail;
-        results.push(detail);
-        var subTypes = _.select(row.detail.fieldtypes, function(t){
-          return t.indexOf('/') >= 0;
-        });
+        if(row){
+          var detail = row.detail;
+          results.push(detail);
+          var subTypes = _.select(row.detail.fieldtypes, function(t){
+            return t.indexOf('/') >= 0;
+          });
 
-        if(!_.isEmpty(subTypes)){
+          if(!_.isEmpty(subTypes)){
 
-          async.reduce(subTypes, results, function(memo, t, redcb){
-            _fetch(t, function(e, res){
-              redcb(null, memo.concat(res));
+            async.reduce(subTypes, results, function(memo, t, redcb){
+              _fetch(t, function(e, res){
+                redcb(null, memo.concat(res));
+              });
+
+            }, function(err, final){
+              done(null, final);
+
             });
 
-          }, function(err, final){
-            done(null, final);
-
-          });
+          }else{
+            done(null, results);
+          }
 
         }else{
           done(null, results);
@@ -121,7 +126,7 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
     var coll = db.collection('rapp_packages');
 
     coll.find({}).toArray(function(e, rows){
-      var interfaces = _.flatten(_.map(rows, 'interfaces'));
+      var interfaces = _.compact(_.flatten(_.map(rows, 'interfaces')));
 
       res.send(interfaces);
 
@@ -137,27 +142,33 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
 
       var results = []
       coll.findOne({type: type}, function(e, row){
+
         if(e) return done(e);
-        var detail = row.detail;
-        results.push(detail);
-        var subTypes = _.select(row.detail.fieldtypes, function(t){
-          return t.indexOf('/') >= 0;
-        });
-
-        if(!_.isEmpty(subTypes)){
-
-          async.reduce(subTypes, results, function(memo, t, redcb){
-            _fetch(t, function(e, res){
-              redcb(null, memo.concat(res));
-            });
-
-          }, function(err, final){
-            done(null, final);
-
+        if(row){
+          var detail = row.detail;
+          results.push(detail);
+          var subTypes = _.select(row.detail.fieldtypes, function(t){
+            return t.indexOf('/') >= 0;
           });
 
+          if(!_.isEmpty(subTypes)){
+
+            async.reduce(subTypes, results, function(memo, t, redcb){
+              _fetch(t, function(e, res){
+                redcb(null, memo.concat(res));
+              });
+
+            }, function(err, final){
+              done(null, final);
+
+            });
+
+          }else{
+            done(null, results);
+          }
         }else{
           done(null, results);
+
         }
 
       });
