@@ -117,6 +117,17 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
 
   });
 
+  app.get('/api/interfaces', function(req, res){
+    var coll = db.collection('rapp_packages');
+
+    coll.find({}).toArray(function(e, rows){
+      var interfaces = _.map(rows, 'interfaces');
+
+      res.send(interfaces);
+
+    });
+
+  });
   app.get('/api/message_details', function(req, res){
     var type = req.query.type;
     if(_.isEmpty(type)) return res.status(400).send('error');
