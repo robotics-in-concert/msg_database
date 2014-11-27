@@ -21,9 +21,6 @@
   display_name: Keyboard Teleop 
   description: Teleop the TurleBot using your keyboard
   max: -1
-  dependencies: 
-    - turtlebot_teleop
-    - turtlebot_bringup
   icon:
     resource_name: turtlebot_bringup/turtlebot2.png
 
@@ -33,9 +30,6 @@
   display_name: Qt Joystick Teleop
   description: Teleop the TurleBot using the Qt Teleop Joystick
   max: -1
-  dependencies: 
-    - rocon_qt_teleop
-    - turtlebot_rapps 
   icon:
     resource_name: turtlebot_rapps/joystick.png
   remappings:
@@ -57,8 +51,6 @@
   display_name: Listener
   description: A pyqt listener for testing pairing.
   max: -1
-  dependencies: 
-    - rocon_qt_listener
   remappings:
     - remap_from: chatter
       remap_to: /conversation/chatter
@@ -75,8 +67,6 @@
   display_name: Chirp 
   description: A strange noise appears 
   max: -1
-  dependencies: 
-    - rocon_apps
   icon:
     resource_name: rocon_apps/cow.png
   pairing:
@@ -90,8 +80,6 @@
   display_name: Follower 
   description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it. (Currently Broken)
   max: -1
-  dependencies: 
-    - turtlebot_rapps
   icon:
     resource_name: turtlebot_rapps/follower_bubble_icon.png
   pairing:
@@ -105,8 +93,6 @@
   display_name: Navigation 
   description: Qt Map Navigation
   max: -1
-  dependencies:
-    - turtlebot_rapps
   icon:
     resource_name: turtlebot_rapps/map_nav_bubble_icon.png
   pairing:
@@ -119,9 +105,6 @@
   display_name: Make A Map
   description: Qt Make A Map
   max: -1
-  dependencies:
-    - turtlebot_rviz_launchers
-    - turtlebot_rapps
   icon:
     resource_name: turtlebot_rapps/make_a_map_bubble_icon.png
   pairing:
@@ -134,9 +117,6 @@
   display_name: 3D Sensing 
   description: Qt 3D Sensor viewing
   max: -1
-  dependencies:
-    - turtlebot_rviz_launchers
-    - turtlebot_rapps
   icon:
     resource_name: turtlebot_rapps/3dsensor_bubble_icon.png
   pairing:
