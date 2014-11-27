@@ -1,0 +1,122 @@
+#  .-----------------------------------------------------------------.
+# /  .-.                                                         .-.  \
+#|  /   \                                                       /   \  |
+#| |\_.  |              Pairing Interactions                   |    /| |
+#|\|  | /|                                                     |\  | |/|
+#| `---' |                                                     | `---' |
+#|       |                                                     |       | *
+#|       |-----------------------------------------------------|       |
+#\       |                                                     |       /
+# \     /                                                       \     /
+#  `---'                                                         `---'
+
+#####
+# TODO: It misses pairing rapp information
+###
+
+
+#####################
+#    PC Pairing     #
+#####################
+
+- name: turtlebot_teleop/keyboard_teleop.launch
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  defaults:
+    display_name: Keyboard Teleop 
+    description: Teleop the TurleBot using your keyboard
+    max: -1
+
+- name: rocon_teleop
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  defaults:
+    display_name: Qt Joystick Teleop
+    description: Teleop the TurleBot using the Qt Teleop Joystick
+    max: -1
+  parameters:
+    - name: maximum_linear_velocity
+      description: Max veloxicy
+      default: 2.0
+    - name: maximum_angular_velocity
+      description: Max angular
+      default: 1.57
+  interface:
+    - name: cmd_vel
+      type: geometry_msgs/Twist 
+      description: Command Velocity
+    - name: compressed_image
+      type: sensor_msgs/CompressedImage
+      description: Image stream from robot
+
+- name: rocon_qt_listener/qt_listener.py
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  defaults:
+    display_name: Listener
+    description: A pyqt listener for testing pairing.
+    max: -1
+  interface:
+    name: chatter
+    type: std_msgs/String
+    description: Chatting room
+
+##########################
+#     Android Pairing    #
+##########################
+- name: com.github.rosjava.android_apps.map_nav.MainActivity
+  compatibility: rocon:/*/*/indigo/jellybean
+  defaults:
+    display_name: Map Navigation 
+    description: Android navigation of a known map 
+    max: -1
+- name: com.github.rosjava.android_apps.make_a_map.MainActivity
+  compatibility: rocon:/*/*/indigo/jellybean
+  defaults:
+    display_name: Make A Map
+    description: Make a map by driving a TurtleBot from an Android device.
+    max: -1
+
+- name: com.github.turtlebot.turtlebot_android.panorama.PanoramaActivity
+  compatibility: rocon:/*/*/indigo/jellybean
+  defaults:
+    display_name: Panorama
+    description: Turtlebot makes a 360 degree panorama image.
+    max: -1
+
+- name: com.github.turtlebot.turtlebot_android.follower.FollowerActivity
+  compatibility: rocon:/*/*/indigo/jellybean
+  defaults:
+    display_name: Follower
+    description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it.
+    max: -1
+
+- name: com.github.rosjava.android_remocons.listener.Listener
+  compatibility: rocon:/*/*/indigo/jellybean
+  defaults:
+    display_name: Listener
+    description: A Android listener for testing pairing.
+    max: -1
+  interface:
+    name: chatter
+    type: std_msgs/String
+    description: Chatting room
+
+
+- name: com.github.rosjava.android_apps.teleop.MainActivity
+  compatibility: rocon:/*/*/indigo/jellybean
+  defaults:
+    display_name: Teleop
+    description: Teleop the TurtleBot using an Android Device
+    max: 1
+  parameters:
+    - name: maximum_linear_velocity
+      description: Max veloxicy
+      default: 0.5
+    - name: maximum_angular_velocity
+      description: Max angular
+      default: 0.75
+  interface:
+    - name: cmd_vel
+      type: geometry_msgs/Twist 
+      description: Command Velocity
+    - name: compressed_image
+      type: sensor_msgs/CompressedImage
+      description: Image stream from robot

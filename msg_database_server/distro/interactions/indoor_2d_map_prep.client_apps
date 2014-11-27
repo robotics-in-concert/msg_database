@@ -1,0 +1,33 @@
+###############################################################################
+# Indoor 2D Map Preparation Interactions 
+###############################################################################
+- name: concert_make_a_map
+  compatibility: rocon:/pc/*/hydro|indigo/*
+  defaults:
+    display_name: Concert Make a Map 
+    description: Select a robot and make a map in the concert
+    max: 1
+  parameters:
+    - name: maximum_linear_velocity
+      description: Max veloxicy
+      default: 2.0
+    - name: maximum_angular_velocity
+      description: Max angular
+      default: 1.57
+    - name: capture_timeout
+      description: Timeout for capturing resource
+      default: 15.0
+    - name: wc_namespace
+      description: World canvas server name space
+      default: "/"
+
+- name: concert_map_annotation
+  compatibility: rocon:/pc/*/hydro|indigo/*
+  defaults:
+    display_name: Concert Map Annotation 
+    description: Annotates table and global marker
+    max: 1
+  parameters:
+    - name: wc_namespace
+      description: World canvas server name space
+      default: "/"
