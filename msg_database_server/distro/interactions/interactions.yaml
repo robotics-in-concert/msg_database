@@ -1,0 +1,6 @@
+interactions:
+  - admin.interactions
+  - delivery.interactions 
+  - teleop.interactions
+  - indoor_2d_map_prep.interactions
+  - turtlebot_pairing.interactions
