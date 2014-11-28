@@ -8,11 +8,15 @@ var async = require('async'),
     rimraf = require('rimraf'),
     Path = require('path'),
     tar = require('tar'),
-    _ = require('lodash')
+    _ = require('lodash'),
+    R = require('ramda'),
+    util = require('util'),
     xml2js = require('xml2js'),
     yaml = require('js-yaml');
 
-REPO_URL = "https://gist.githubusercontent.com/eskim/b1abe813fde6386172ee/raw/fa27ef14b4761dcb6f614e4ba85c786cdf8ad670/gistfile1.txt"
+inspect = R.rPartial(util.inspect, false, 10, true);
+
+REPO_URL = "https://gist.githubusercontent.com/eskim/b1abe813fde6386172ee/raw"
 
 
 
@@ -39,7 +43,7 @@ extract_rapp_meta = function(url, callback){
         async.map(package_files, function(f, cb2){
           var package_base = Path.dirname(f);
           console.log(package_base);
-          xml2js.parseString(fs.readFileSync(f, 'utf8'), {async: true, mergeAttrs: true}, function(e2, js){
+          xml2js.parseString(fs.readFileSync(f, 'utf8'), {async: true, mergeAttrs: true, explicitArray: false}, function(e2, js){
             var package = js.package;
             cb2(null, {base: package_base, package: package});
           });
@@ -55,8 +59,10 @@ extract_rapp_meta = function(url, callback){
       function(package_list, cb){
         async.map(package_list, function(package_info, cb2){
           // rapp
+          console.log(inspect(package_info));
 
-          var rocon_apps = package_info.package.export[0].rocon_app;
+
+          var rocon_apps = [].concat(package_info.package.export.rocon_app);
           var rapps = _.map(rocon_apps, function(rapp){
             var f = Path.join(package_info.base, rapp);
             if(fs.existsSync(f)){
@@ -65,8 +71,11 @@ extract_rapp_meta = function(url, callback){
 
 
               var rapp_meta = _.reduce(rapp_meta.split(/\n/), function(memo, line){
+                if(line.match(/#.+/))
+                  return memo;
                 var kv = line.split(":");
-                var key = kv.shift();
+                var key = kv.shift().trim();
+                if(key == '') return memo;
                 var value = kv.join(":");
                 memo[key] = value.trim();
                 return memo;
@@ -74,8 +83,6 @@ extract_rapp_meta = function(url, callback){
               console.log(rapp_meta);
 
             }
-
-
 
 
 
@@ -98,7 +105,7 @@ extract_rapp_meta = function(url, callback){
         
       function(package_list, cb){
         async.map(package_list, function(package_info, cb2){
-          var rocon_apps = package_info.package.export[0].rocon_app;
+          var rocon_apps = [].concat(package_info.package.export.rocon_app);
           var interfaces = _.map(rocon_apps, function(rapp){
             var f = Path.join(package_info.base, rapp).replace(/rapp$/, "interface");
             if(fs.existsSync(f)){
@@ -106,7 +113,7 @@ extract_rapp_meta = function(url, callback){
             }
             return doc;
           });
-          package_info.interfaces = interfaces;
+          package_info.interfaces = _.compact(interfaces);
           cb2(null, package_info);
 
         }, function(e, lst){
@@ -199,7 +206,7 @@ exports = module.exports = function(db){
 
     _.each(rapp_urls, function(url){
       extract_rapp_meta(url, function(e, data){
-        console.log(data);
+        console.log(inspect(data));
 
 
         var coll_packages = db.collection('rapp_packages');
@@ -212,7 +219,7 @@ exports = module.exports = function(db){
 
           coll_packages.update({name: nm}, {$set: package_info}, {w:1, upsert: true}, cb);
         }, function(e, x){
-          console.log('rapp package - sync done');
+          console.log('rapp package - sync done ', url);
         });
         // types_to_load = _.map(data, function(interface){
           // return _.map(interface, function(v, k){
