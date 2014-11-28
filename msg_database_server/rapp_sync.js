@@ -67,21 +67,14 @@ extract_rapp_meta = function(url, callback){
             var f = Path.join(package_info.base, rapp);
             if(fs.existsSync(f)){
 
-              var rapp_meta = fs.readFileSync(f, 'utf8');
+              var rapp_meta_txt = fs.readFileSync(f, 'utf8');
 
-
-              var rapp_meta = _.reduce(rapp_meta.split(/\n/), function(memo, line){
-                if(line.match(/#.+/))
-                  return memo;
-                var kv = line.split(":");
-                var key = kv.shift().trim();
-                if(key == '') return memo;
-                var value = kv.join(":");
-                memo[key] = value.trim();
-                return memo;
-              }, {});
-              console.log(rapp_meta);
-
+              var rapp_meta = R.pipe(
+                R.reject(R.match(/(\s*#.+$|^\s*$)/)),
+                R.map(R.trim),
+                R.map(R.split(/\s*:\s*/)),
+                R.fromPairs
+              )(rapp_meta_txt.split(/\n/));
             }
 
 
