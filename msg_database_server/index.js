@@ -129,14 +129,32 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
 
     coll.find({}).toArray(function(e, rows){
 
-      ifs = R.pipe(
-        R.map(R.props(['name', 'interfaces'])),
-        R.map(R.flatten),
-        R.fromPairs
-      )(rows);
+
+
+      var x = R.map(function(row){
+
+        var data = {}
+        var rapps = row.rocon_apps;
+        rapps = R.pickBy(R.has('interfaces'), rapps);
+        console.log(rapps);
+
+
+        data.name = row.name
+        data.rapps = rapps
+        return data;
+
+        
+
+
+      })(rows);
+      // ifs = R.pipe(
+        // R.map(R.props(['name', 'rocon_apps'])),
+        // R.map(R.flatten),
+        // R.fromPairs
+      // )(rows);
       // var interfaces = _.compact(_.flatten(_.map(rows, 'interfaces')));
 
-      res.send(ifs);
+      res.send(x);
 
     });
 
@@ -199,7 +217,6 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
     },
     start: true
   });
-      require('./rapp_sync')(db);
 
 
 
