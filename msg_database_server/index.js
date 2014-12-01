@@ -1,4 +1,5 @@
 var _ = require('lodash'),
+  R = require('ramda'),
   MongoClient = require('mongodb').MongoClient,
   async = require('async'),
   express = require('express'),
@@ -23,6 +24,7 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
   server = app.listen(process.env.MSG_DATABASE_PORT, function(){
     console.log('Listening on port %d (%s)', server.address().port, process.env.NODE_ENV);
   });
+
 
   app.get('/message_detail', function(req, res){
     var type = req.query.type;
@@ -126,9 +128,15 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
     var coll = db.collection('rapp_packages');
 
     coll.find({}).toArray(function(e, rows){
-      var interfaces = _.compact(_.flatten(_.map(rows, 'interfaces')));
 
-      res.send(interfaces);
+      ifs = R.pipe(
+        R.map(R.props(['name', 'interfaces'])),
+        R.map(R.flatten),
+        R.fromPairs
+      )(rows);
+      // var interfaces = _.compact(_.flatten(_.map(rows, 'interfaces')));
+
+      res.send(ifs);
 
     });
 
@@ -187,12 +195,13 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
     cronTime: '0 0 * * * *', // every hour
     onTick: function(){
       require('./sync')(db);
+      require('./rapp_sync')(db);
     },
     start: true
   });
+      require('./rapp_sync')(db);
 
 
-  require('./rapp_sync')(db);
 
 
 

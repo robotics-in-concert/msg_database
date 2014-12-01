@@ -32,7 +32,7 @@ module.exports = exports = function(db){
         function(type, cb2){
           console.log("sync : "+type);
 
-          exec("convert_msg_spec_to_json.py "+type, function(e, stdout, stderr){
+          exec("rosrun msg_database_scripts convert_msg_spec_to_json.py "+type, function(e, stdout, stderr){
             if(e){
               cb2(e);
             }else{

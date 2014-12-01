@@ -68,28 +68,34 @@ extract_rapp_meta = function(url, callback){
             if(fs.existsSync(f)){
 
               var rapp_meta_txt = fs.readFileSync(f, 'utf8');
+              var key = Path.basename(f, ".rapp");
 
               var rapp_meta = R.pipe(
                 R.reject(R.match(/(\s*#.+$|^\s*$)/)),
-                R.map(R.trim),
-                R.map(R.split(/\s*:\s*/)),
-                R.fromPairs
+                R.map(R.match(/([^:]+)\s*:\s*(.+)/)),
+                R.map(R.tail),
+                R.fromPairs, // to hash
+                R.assoc('key', key),
+                R.assoc('path', f)
               )(rapp_meta_txt.split(/\n/));
+
             }
-
-
 
             // var doc = yaml.safeLoad(fs.readFileSync(f, 'utf8'));
             return rapp_meta;
           });
 
-          package_info.rocon_apps = rapps;
+
+          package_info.rocon_apps = R.pipe(
+                R.reject(R.isEmpty),
+                R.groupBy(R.prop('key')),
+                R.mapObj(R.head)
+            )(rapps);
           cb2(null, package_info);
 
 
 
         }, function(e, results){
-          console.log('xxxxxxxxxxxxxx', results);
 
           cb(null, results);
           
@@ -97,23 +103,31 @@ extract_rapp_meta = function(url, callback){
       }, 
         
       function(package_list, cb){
-        async.map(package_list, function(package_info, cb2){
-          var rocon_apps = [].concat(package_info.package.export.rocon_app);
-          var interfaces = _.map(rocon_apps, function(rapp){
-            var f = Path.join(package_info.base, rapp).replace(/rapp$/, "interface");
-            if(fs.existsSync(f)){
-              var doc = yaml.safeLoad(fs.readFileSync(f, 'utf8'));
-            }
-            return doc;
-          });
-          package_info.interfaces = _.compact(interfaces);
-          cb2(null, package_info);
 
-        }, function(e, lst){
-          cb(null, lst);
-        });
+
+        R.forEach(function(pack){
+          R.forEach(function(key){
+
+            var app = pack.rocon_apps[key];
+            if(app.public_interface){
+              var ifn = Path.join(Path.dirname(app.path), app.public_interface);
+              console.log(ifn);
+
+              if(fs.existsSync(ifn)){
+                var doc = yaml.safeLoad(fs.readFileSync(ifn, 'utf8'));
+                app.interfaces = doc;
+                console.log("*");
+              }
+            };
+
+          })(R.keys(pack.rocon_apps));
+
+        })(package_list);
+
+        cb(null, package_list);
 
       }
+      
         
         
 
@@ -130,64 +144,6 @@ extract_rapp_meta = function(url, callback){
 
     });
   });
-    // glob(dest + "/**/package.xml", function(e, files){
-      // console.log(files);
-
-      // var data = async.map(files, function(f, cb0){
-        // var package_base = Path.dirname(f);
-        // console.log(package_base);
-
-        // xml2js.parseString(fs.readFileSync(f, 'utf8'), {async: true, mergeAttrs: true}, function(e2, js){
-          // var package_meta = js.package;
-
-
-          // console.log(package_meta.export);
-
-
-
-          // var rapps = package_meta.export[0].rocon_app;
-          // console.log(rapps);
-
-
-          // _.each(rapps, function(rapp_path){
-            // Path.join(package_base, rapp_path)
-
-            // // interfaces
-            // glob(dest + "/**/*interface", function(e, files){
-              // var data = _.map(files, function(f){
-                // var doc = yaml.safeLoad(fs.readFileSync(f, 'utf8'));
-                // return doc;
-              // });
-              // // clean
-              // rimraf.sync(dest);
-              // callback(null, data);
-
-
-
-            // });
-
-          // });
-
-
-
-          // cb0(e2, js.package);
-        // });
-
-      // }, function(e, lst){
-        // callback(null, lst);
-        // rimraf.sync(dest);
-        
-      // });
-      // // clean
-
-
-
-    // });
-  // });
-
-
-
-
 };
 
 exports = module.exports = function(db){
