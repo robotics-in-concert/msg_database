@@ -91,7 +91,7 @@ extract_rapp_meta = function(url){
 
 
       })
-      // post-process
+      // fetch interface
       .map(function(package_info){
 
         var pack = package_info;
@@ -110,6 +110,28 @@ extract_rapp_meta = function(url){
 
         })(R.keys(pack.rocon_apps));
         return pack;
+      })
+      // post process
+      .map(function(package_info){
+        var rocon_apps = package_info.rocon_apps;
+
+        R.mapObj.idx(function(v, key, obj){
+          console.log(key);
+
+          if(v.parent_name && v.parent_name != ''){
+            var pname = v.parent_name.split(/\//)[1];
+            if(!rocon_apps[pname].children){
+              rocon_apps[pname].children = [v];
+            }else{
+              rocon_apps[pname].children.push(v);
+            };
+            delete package_info.rocon_apps[key]
+          }
+        })(rocon_apps);
+
+
+        return package_info;
+
       })
       .tap(function(x){
         console.log('----------------------------- FINAL --------------------------------');
