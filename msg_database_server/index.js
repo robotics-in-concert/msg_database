@@ -138,21 +138,11 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
         rapps = R.pickBy(R.has('interfaces'), rapps);
         console.log(rapps);
 
-
         data.name = row.name
-        data.rapps = rapps
+        data.rocon_apps = rapps
         return data;
 
-        
-
-
       })(rows);
-      // ifs = R.pipe(
-        // R.map(R.props(['name', 'rocon_apps'])),
-        // R.map(R.flatten),
-        // R.fromPairs
-      // )(rows);
-      // var interfaces = _.compact(_.flatten(_.map(rows, 'interfaces')));
 
       res.send(x);
 
