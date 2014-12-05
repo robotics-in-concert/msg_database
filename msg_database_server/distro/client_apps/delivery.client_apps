@@ -20,7 +20,7 @@
   interface:
     - name: send_order
       type: simple_delivery_msgs/DeliveryOrder 
-    - name delivery_status
+    - name: delivery_status
       type: simple_delivery_msgs/DeliveryStatus
     - name: tables
       type: yocs_msgs/Tables
