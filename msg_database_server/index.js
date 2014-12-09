@@ -204,10 +204,14 @@ MongoClient.connect(process.env.MONGO_URL, function(e, db){
     onTick: function(){
       require('./sync')(db);
       require('./rapp_sync')(db);
+      require('./client_apps_sync')(db);
     },
     start: true
   });
-      require('./rapp_sync')(db);
+  require('./client_apps_sync')(db);
+
+
+
 
 
 
