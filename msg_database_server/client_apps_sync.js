@@ -18,15 +18,12 @@ var doSync = function(db){
   };
 
   return request(LIST_URL)
-    .spread(function(res, content){
-      return content;
-    })
-    .call('split', /\n/)
+    .then(R.compose(R.split(/\n/), R.nth(1))
     .map(function(url){
       return _load_yaml(url)
         .then(function(client_apps_list_meta){
           var interactions = client_apps_list_meta.interactions;
-          var x = R.map(R.curry(URL.resolve)(url))(interactions);
+          var x = R.map(utils.resolve_url(url))(interactions);
           console.log('X', x);
 
           return x;
