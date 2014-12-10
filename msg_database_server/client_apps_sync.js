@@ -2,6 +2,7 @@ var Promise = require('bluebird'),
     R = require('ramda'),
     URL = require('url'),
     request = Promise.promisify(require('request')),
+    utils = require('./utils'),
     yaml = require('js-yaml');
 
 
@@ -41,7 +42,7 @@ var doSync = function(db){
 module.exports = exports = function sync(db){
   doSync(db).then(function(res){
     console.log('Done.');
-    console.log(res);
+    utils.inspect(res);
   })
   .catch(function(e){
     console.error(e);
