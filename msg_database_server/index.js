@@ -11,7 +11,7 @@ var _ = require('lodash'),
 
 
 
-MongoClient.connect(process.env.MONGO_URL, function(e, db){
+MongoClient.connect(process.env.MSG_DATABASE_MONGO_URL, function(e, db){
   if(e) throw e;
 
   console.log('mongo connected');
