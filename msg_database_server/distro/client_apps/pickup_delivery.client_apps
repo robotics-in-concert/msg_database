@@ -1,0 +1,26 @@
+- name: web_url(http://www.google.com)
+  compatibility: rocon:/*
+  defaults:
+    display_name: 'Web Search'
+    description: 'Web Surfer'
+    max: -1
+
+- name: web_app(http://__WEBSERVER_ADDRESS__/concert_common_web_interface/pickup_delivery_order/index.html)
+  compatibility: rocon:/*/*/indigo/chrome|firefox
+  defaults:
+    display_name: Pickup Delivery Order
+    description: Delivery from pickup to a desk 
+  parameters:
+    - name: rosbridge_address
+      description: Rosbridge address
+    - name: rosbridge_port  
+      description: rosbridge port
+    - name: discard_btn_name
+      description: filtering unused button about pickup point
+  interface:
+    - name: send_order
+      type: simple_delivery_msgs/DeliveryOrder 
+    - name: delivery_status
+      type: simple_delivery_msgs/DeliveryStatus
+    - name: tables
+      type: yocs_msgs/Tables

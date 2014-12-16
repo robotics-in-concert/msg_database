@@ -1,0 +1,19 @@
+- name: web_url(http://www.google.com)
+  compatibility: rocon:/*
+  defaults:
+    display_name: 'Web Search'
+    description: 'Web Surfer'
+    max: -1
+
+- name: com.github.robotics_in_concert.rocon_android_apps.beacon_awareness_ex.BeaconAwarenessExMainActivity
+  compatibility: rocon:/*/*/*/jellybean|ice_cream_sandwich|kitkat
+  defaults:
+    display_name: Beacon Awareness
+    description: Beacon Awareness 
+    max: -1
+  interface:
+    - name: beacons
+      type: std_msgs/String
+  parameters:
+    - name: beacon_map
+      type: description for symentic information of beacons
