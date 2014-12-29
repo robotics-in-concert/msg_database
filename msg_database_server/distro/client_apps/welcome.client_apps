@@ -14,6 +14,8 @@
   interface:
     - name: beacons
       type: std_msgs/String
+    - name: start_app
+      type: std_msgs/String
   parameters:
     - name: beacon_map
       type: description for symentic information of beacons
