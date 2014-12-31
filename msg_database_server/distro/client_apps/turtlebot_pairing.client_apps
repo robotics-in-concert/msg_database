@@ -40,13 +40,17 @@
       description: Max angular
       default: 1.57
   interface:
-    - name: cmd_vel
-      type: geometry_msgs/Twist 
-      description: Command Velocity
-    - name: compressed_image
-      type: sensor_msgs/CompressedImage
-      description: Image stream from robot
-
+    publishers:
+      - name: cmd_vel
+        type: geometry_msgs/Twist 
+        description: Command Velocity
+    subscribers: 
+      - name: compressed_image
+        type: sensor_msgs/CompressedImage
+        description: Image stream from robot
+    action_clients: []
+    action_servers: []
+    services: []
 - name: rocon_qt_listener/qt_listener.py
   compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
   defaults:
@@ -54,9 +58,14 @@
     description: A pyqt listener for testing pairing.
     max: -1
   interface:
-    name: chatter
-    type: std_msgs/String
-    description: Chatting room
+    publishers:
+      - name: chatter
+        type: std_msgs/String
+        description: Chatting room
+    subscribers: []
+    action_clients: []
+    action_servers: []
+    services: []
 
 ##########################
 #     Android Pairing    #
@@ -95,10 +104,14 @@
     description: A Android listener for testing pairing.
     max: -1
   interface:
-    name: chatter
-    type: std_msgs/String
-    description: Chatting room
-
+    publishers:
+      - name: chatter
+        type: std_msgs/String
+        description: Chatting room
+    subscribers: []
+    action_clients: []
+    action_servers: []
+    services: []
 
 - name: com.github.rosjava.android_apps.teleop.MainActivity
   compatibility: rocon:/*/*/indigo/jellybean
@@ -114,9 +127,14 @@
       description: Max angular
       default: 0.75
   interface:
-    - name: cmd_vel
-      type: geometry_msgs/Twist 
-      description: Command Velocity
-    - name: compressed_image
-      type: sensor_msgs/CompressedImage
-      description: Image stream from robot
+    publishers:
+      - name: cmd_vel
+        type: geometry_msgs/Twist 
+        description: Command Velocity
+    subscribers: 
+      - name: compressed_image
+        type: sensor_msgs/CompressedImage
+        description: Image stream from robot
+    action_clients: []
+    action_servers: []
+    services: []

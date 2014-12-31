@@ -18,9 +18,14 @@
     - name: discard_btn_name
       description: filtering unused button about pickup point
   interface:
-    - name: send_order
-      type: simple_delivery_msgs/DeliveryOrder 
-    - name: delivery_status
-      type: simple_delivery_msgs/DeliveryStatus
-    - name: tables
-      type: yocs_msgs/Tables
+    publishers:
+      - name: send_order
+        type: simple_delivery_msgs/DeliveryOrder 
+    subscribers: 
+      - name: delivery_status
+        type: simple_delivery_msgs/DeliveryStatus
+      - name: tables
+        type: yocs_msgs/Tables
+    action_clients: []
+    action_servers: []
+    services: []

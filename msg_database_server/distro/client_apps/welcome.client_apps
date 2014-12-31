@@ -12,10 +12,16 @@
     description: Beacon Awareness 
     max: -1
   interface:
-    - name: beacons
-      type: std_msgs/String
-    - name: start_app
-      type: std_msgs/String
+    publishers:
+      - name: beacons
+        type: std_msgs/String
+    subscribers: 
+      - name: start_app
+        type: std_msgs/String
+    action_clients: []
+    action_servers: []
+    services: []
+
   parameters:
     - name: beacon_map
       type: description for symentic information of beacons
