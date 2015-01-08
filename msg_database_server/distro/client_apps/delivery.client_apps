@@ -25,7 +25,7 @@
       - name: delivery_status
         type: simple_delivery_msgs/DeliveryStatus
       - name: tables
-        type: yocs_msgs/Tables
+        type: yocs_msgs/TableList
     action_clients: []
     action_servers: []
-    services: []les
+    services: []
