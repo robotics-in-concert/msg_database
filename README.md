@@ -6,5 +6,8 @@ msg_database
 ### msg_database_server
 
 * required environment variables
-  * MONGO_URL
-  * MSG_DATABASE_URL
+  * `ROCON_PROTOCOLS_WEB_MONGO_URL`
+  * `ROCON_PROTOCOLS_WEB_PORT`
+  * `ROCON_PROTOCOLS_WEB_ROCON_APPS_URL`
+  * `ROCON_PROTOCOLS_WEB_HIC_APPS_URL`
+
