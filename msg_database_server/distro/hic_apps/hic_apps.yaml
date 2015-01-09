@@ -1,0 +1,8 @@
+hic_apps:
+  - admin.hic_apps
+  - delivery.hic_apps
+  - pickup_delivery.hic_apps
+  - teleop.hic_apps
+  - indoor_2d_map_prep.hic_apps
+  - turtlebot_pairing.hic_apps
+  - welcome.hic_apps

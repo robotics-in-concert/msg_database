@@ -1,8 +1,0 @@
-interactions:
-  - admin.client_apps
-  - delivery.client_apps
-  - pickup_delivery.client_apps
-  - teleop.client_apps
-  - indoor_2d_map_prep.client_apps
-  - turtlebot_pairing.client_apps
-  - welcome.client_apps
