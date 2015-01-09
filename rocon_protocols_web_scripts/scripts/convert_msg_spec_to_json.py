@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-Gets message specification from file and stdouts msg_database_msgs/TypeDefinition JSON format
+Gets message specification from file and stdouts rocon_protocols_web_msgs/TypeDefinition JSON format
 '''
 
 import os
@@ -8,7 +8,7 @@ import sys
 import rospkg
 import rosmsg
 import genmsg
-from msg_database_msgs.msg import TypeDefinition
+from rocon_protocols_web_msgs.msg import TypeDefinition
 from rospy_message_converter import json_message_converter
 
 class ROSMsgException(Exception): pass

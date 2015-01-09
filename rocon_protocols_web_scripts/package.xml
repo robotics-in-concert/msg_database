@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <package>
-  <name>msg_database_scripts</name>
+  <name>rocon_protocols_web_scripts</name>
   <version>0.0.0</version>
-  <description>The msg_database_scripts package</description>
+  <description>
+    This package includes useful scripts to collect ros and rocon specs from local system
+  </description>
 
   <maintainer email="jihoonl@yujinrobot.com">Jihoon Lee</maintainer>
   <author>Jihoon Lee</author>
@@ -10,7 +12,7 @@
   <!-- <url type="website">http://wiki.ros.org/msg_database_scripts</url> -->
 
   <buildtool_depend>catkin</buildtool_depend>
-  <run_depend>msg_database_msgs</run_depend>
+  <run_depend>rocon_protocols_web_msgs</run_depend>
   <run_depend>genmsg</run_depend>
   <run_depend>rosmsg</run_depend>
   <run_depend>python-rospkg</run_depend>

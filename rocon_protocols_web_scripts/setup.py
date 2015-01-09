@@ -4,7 +4,7 @@ from distutils.core import setup
 from catkin_pkg.python_setup import generate_distutils_setup
 
 d = generate_distutils_setup(
-    packages=['msg_database_scripts'],
+    packages=['rocon_protocols_web_scripts'],
     scripts=['scripts/convert_msg_spec_to_json.py'],
 )
 
