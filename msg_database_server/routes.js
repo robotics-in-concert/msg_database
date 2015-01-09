@@ -115,7 +115,7 @@ module.exports = function(app, db){
 
         var data = {}
         var rapps = row.rocon_apps;
-        rapps = R.pickBy(R.has('interfaces'), rapps);
+        rapps = R.pickBy(R.has('public_interface'), rapps);
         console.log(rapps);
 
         data.name = row.name

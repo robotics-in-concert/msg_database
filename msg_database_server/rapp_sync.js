@@ -22,6 +22,18 @@ inspect = R.rPartial(util.inspect, false, 10, true);
 REPO_URL = "https://gist.githubusercontent.com/eskim/b1abe813fde6386172ee/raw"
 
 
+var parseKeyValueFile = function(body){
+  var data = R.pipe(
+    R.reject(R.match(/(\s*#.+$|^\s*$)/)),
+    R.map(R.match(/([^:]+)\s*:\s*(.+)/)),
+    R.map(R.tail),
+    R.fromPairs // to hash
+  )(body.split(/\n/));
+  return data;
+
+};
+
+
 
 extract_rapp_meta = function(url){
 
@@ -65,16 +77,9 @@ extract_rapp_meta = function(url){
 
             var rapp_meta_txt = fs.readFileSync(f, 'utf8');
             var key = Path.basename(f, ".rapp");
-
-            var rapp_meta = R.pipe(
-              R.reject(R.match(/(\s*#.+$|^\s*$)/)),
-              R.map(R.match(/([^:]+)\s*:\s*(.+)/)),
-              R.map(R.tail),
-              R.fromPairs, // to hash
-              R.assoc('key', key),
-              R.assoc('path', f)
-            )(rapp_meta_txt.split(/\n/));
-
+            var rapp_meta = parseKeyValueFile(rapp_meta_txt);
+            rapp_meta.key = key;
+            rapp_meta.path = f;
           }
 
           // var doc = yaml.safeLoad(fs.readFileSync(f, 'utf8'));
@@ -103,13 +108,42 @@ extract_rapp_meta = function(url){
 
             if(fs.existsSync(ifn)){
               var doc = yaml.safeLoad(fs.readFileSync(ifn, 'utf8'));
-              app.interfaces = doc;
-              console.log("*");
+              app.public_interface = doc;
             }
           };
 
         })(R.keys(pack.rocon_apps));
         return pack;
+      })
+      // fetch parameters
+      .map(function(package_info){
+
+        var pack = package_info;
+        R.forEach(function(key){
+          var app = pack.rocon_apps[key];
+          if(app.public_parameters){
+            var ifn = Path.join(Path.dirname(app.path), app.public_parameters);
+            if(fs.existsSync(ifn)){
+              var data = parseKeyValueFile(fs.readFileSync(ifn, 'utf8'));
+              app.public_parameters = data;
+            }
+          };
+
+        })(R.keys(pack.rocon_apps));
+        return pack;
+      })
+
+      // cleanse
+      .map(function(package_info){
+        package_info.rocon_apps = R.mapObj.idx(function(v, k){
+          v = R.omit(['key', 'path'])(v);
+          return v;
+        })(package_info.rocon_apps);
+
+        
+
+
+        return package_info;
       })
       // post process
       .map(function(package_info){

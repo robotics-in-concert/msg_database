@@ -37,7 +37,8 @@ MongoClient.connect(process.env.MSG_DATABASE_MONGO_URL, function(e, db){
     },
     start: true
   });
-  require('./client_apps_sync')(db);
+  // require('./client_apps_sync')(db);
+  require('./rapp_sync')(db);
 
 
 
