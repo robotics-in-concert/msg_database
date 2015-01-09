@@ -6,18 +6,13 @@ var Promise = require('bluebird'),
     yaml = require('js-yaml');
 
 
-LIST_URL = "https://gist.githubusercontent.com/eskim/78e3822a1fc31ebe2fbe/raw"
+var list_url = process.env.ROCON_PROTOCOLS_WEB_HIC_APPS_URL;
 
 var doSync = function(db){
 
 
-  return request(LIST_URL)
-    .then(R.compose(R.split(/\n/), R.nth(1)))
-    .map(function(url){
-      return utils.load_yaml(url)
-        .then( R.compose( R.map(utils.resolve_url(url)), R.prop('hic_apps')) )
-    })
-    .then(R.unnest)
+  return utils.load_yaml(list_url)
+    .get('hic_apps')
     .map(utils.load_yaml)
     .then(R.unnest);
 };
@@ -25,6 +20,10 @@ var doSync = function(db){
 
 
 module.exports = exports = function sync(db){
+  if(!list_url){
+    console.log('failed to sync hic apps - no environment variable specified');
+    return;
+  }
   var coll = db.collection('interactions');
   doSync(db).map(function(interaction){
     utils.inspect(interaction);
