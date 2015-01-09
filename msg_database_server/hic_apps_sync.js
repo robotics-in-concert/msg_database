@@ -15,7 +15,7 @@ var doSync = function(db){
     .then(R.compose(R.split(/\n/), R.nth(1)))
     .map(function(url){
       return utils.load_yaml(url)
-        .then( R.compose( R.map(utils.resolve_url(url)), R.prop('interactions')) )
+        .then( R.compose( R.map(utils.resolve_url(url)), R.prop('hic_apps')) )
     })
     .then(R.unnest)
     .map(utils.load_yaml)
