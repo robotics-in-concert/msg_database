@@ -104,7 +104,7 @@ module.exports = function(app, db){
 
   });
 
-  app.get('/api/interfaces', function(req, res){
+  app.get('/api/rocon_app', function(req, res){
     var coll = db.collection('rapp_packages');
 
     coll.find({}).toArray(function(e, rows){
@@ -130,7 +130,7 @@ module.exports = function(app, db){
 
   });
 
-  app.get('/api/interaction_interfaces', function(req, res){
+  app.get('/api/hic_app', function(req, res){
     var coll = db.collection('interactions');
     coll.find({}).toArray(function(e, rows){
       var interactions = R.filter(R.prop('interface'))(rows);
