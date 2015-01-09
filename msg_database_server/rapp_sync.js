@@ -19,7 +19,7 @@ inspect = R.rPartial(util.inspect, false, 10, true);
 
 
 
-REPO_URL = "https://gist.githubusercontent.com/eskim/b1abe813fde6386172ee/raw"
+var repo_url = process.env.ROCON_PROTOCOLS_WEB_ROCON_APPS_URL;
 
 
 var parseKeyValueFile = function(body){
@@ -179,10 +179,16 @@ extract_rapp_meta = function(url){
 
 
 exports = module.exports = function(db){
+  if(!repo_url){
+    console.log('failed to sync rocon apps - no environment variable specified');
+    return;
+  }
 
-  requestP(REPO_URL)
+
+  requestP(repo_url)
     .spread(function(res, body){
-      return body.split(/\n/);
+      var doc = yaml.safeLoad(body);
+      return doc.rocon_apps;
     })
     .map(extract_rapp_meta)
     .each(R.forEach(function(package_info){
