@@ -6,7 +6,6 @@ var Promise = require('bluebird'),
     yaml = require('js-yaml');
 
 
-var list_url = process.env.ROCON_PROTOCOLS_WEB_HIC_APPS_URL;
 
 var doSync = function(db){
 
@@ -19,7 +18,7 @@ var doSync = function(db){
 
 
 
-module.exports = exports = function sync(db){
+module.exports = exports = function sync(db, list_url){
   if(!list_url){
     console.log('failed to sync hic apps - no environment variable specified');
     return;

@@ -19,7 +19,6 @@ inspect = R.rPartial(util.inspect, false, 10, true);
 
 
 
-var repo_url = process.env.ROCON_PROTOCOLS_WEB_ROCON_APPS_URL;
 
 
 var parseKeyValueFile = function(body){
@@ -178,7 +177,7 @@ extract_rapp_meta = function(url){
 
 
 
-exports = module.exports = function(db){
+exports = module.exports = function(db, repo_url){
   if(!repo_url){
     console.log('failed to sync rocon apps - no environment variable specified');
     return;

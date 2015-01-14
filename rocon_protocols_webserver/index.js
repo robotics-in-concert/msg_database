@@ -4,14 +4,15 @@ var _ = require('lodash'),
   async = require('async'),
   express = require('express'),
   path = require('path'),
-  CronJob = require('cron').CronJob;
+  CronJob = require('cron').CronJob,
+  Config = require('./config');
 
 
 
 
 
 
-MongoClient.connect(process.env.ROCON_PROTOCOLS_WEB_MONGO_URL, function(e, db){
+MongoClient.connect(Config.mongo_url, function(e, db){
   if(e) throw e;
 
   console.log('mongo connected');
@@ -20,8 +21,8 @@ MongoClient.connect(process.env.ROCON_PROTOCOLS_WEB_MONGO_URL, function(e, db){
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs');
 
-  server = app.listen(process.env.ROCON_PROTOCOLS_WEB_PORT, function(){
-    console.log('Listening on port %d (%s)', server.address().port, process.env.NODE_ENV);
+  server = app.listen(Config.port, function(){
+    console.log('Listening on port %d', server.address().port);
   });
 
 
@@ -32,14 +33,14 @@ MongoClient.connect(process.env.ROCON_PROTOCOLS_WEB_MONGO_URL, function(e, db){
     cronTime: '0 0 * * * *', // every hour
     onTick: function(){
       require('./sync')(db);
-      require('./rapp_sync')(db);
-      require('./hic_apps_sync')(db);
+      require('./rapp_sync')(db, Config.rocon_apps_url);
+      require('./hic_apps_sync')(db, Config.hic_apps_url);
     },
     start: true
   });
   // require('./client_apps_sync')(db);
   // require('./rapp_sync')(db);
-  require('./hic_apps_sync')(db);
+  // require('./hic_apps_sync')(db);
 
 
 

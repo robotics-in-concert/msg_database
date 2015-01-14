@@ -1,0 +1,6 @@
+{
+  "port": 10000,
+  "mongo_url": "mongodb://localhost:27017/rocon_protocols_web",
+  "rocon_apps_url": "https://raw.githubusercontent.com/robotics-in-concert/rocon_protocols_web/master/rocon_protocols_webserver/distro/rocon_apps/rocon_apps.yaml",
+  "hic_apps_url": "https://raw.githubusercontent.com/robotics-in-concert/rocon_protocols_web/master/rocon_protocols_webserver/distro/hic_apps/hic_apps.yaml"
+}
