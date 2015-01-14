@@ -5,7 +5,7 @@ var sinon = require('sinon');
 // var Message = require('../index').Message;
 
 
-describe('msg', function(){
+describe('msg.js', function(){
   var sandbox = null;
   var exec = null;
   var Message = null;
