@@ -3,15 +3,8 @@ var expect = require('chai').expect;
 var sinon = require('sinon');
 var request = require('request');
 
-// var Utils = require('../lib/utils');
-
-
 describe('utils.js', function(){
-
-
-
-  var server = null;
-  var Utils = null;
+  var Utils;
 
   beforeEach(function(done){
     sinon.stub(request, 'get')
@@ -29,6 +22,14 @@ describe('utils.js', function(){
 
   });
 
+  it('parse key value file', function(){
+    expect(Utils.parseKeyValue("a: 10\nb: 20")).to.deep.equal({a: "10", b: "20"});
+    expect(Utils.parseKeyValue("a: qwer asdf")).to.deep.equal({a: "qwer asdf"});
+    expect(Utils.parseKeyValue("#a: 10\nb: 20")).to.deep.equal({b: "20"});
+    expect(Utils.parseKeyValue("\n\n   b: 20   ")).to.deep.equal({b: "20"});
+    expect(Utils.parseKeyValue("a: 10\n\n   b: 20   ")).to.deep.equal({a: "10", b: "20"});
+
+  });
 
   it('should fetch and parse yaml', function(done){
     Utils.load_yaml('url')

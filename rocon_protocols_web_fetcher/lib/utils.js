@@ -9,5 +9,17 @@ module.exports = exports = {
     return request.getAsync(url).then(R.compose(yaml.safeLoad, R.nth(1)));
   },
 
-  resolve_url: R.curry(URL.resolve)
+  resolve_url: R.curry(URL.resolve),
+
+
+  parseKeyValue: function(body){
+    var data = R.pipe(
+      R.reject(R.match(/(\s*#.+$|^\s*$)/)),
+      R.map(R.match(/\s*([^:]+)\s*:\s*(.+)/)),
+      R.map(R.tail),
+      R.fromPairs // to hash
+    )(body.trim().split(/\n/));
+    return data;
+
+  }
 }
