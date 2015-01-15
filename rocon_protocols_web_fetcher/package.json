@@ -4,7 +4,7 @@
   "description": "fetcher lib for rocon_protocols_web",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/mocha/bin/mocha"
   },
   "author": "Eunsub Kim <eunsub@gmail.com>",
   "license": "ISC",
