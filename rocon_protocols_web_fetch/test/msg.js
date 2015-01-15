@@ -18,9 +18,9 @@ describe('msg.js', function(){
 
     sinon.stub(require('child_process'), 'exec')
       .withArgs('rosmsg list').yields(null, "a\nb\nc", null)
-      .withArgs('rosrun msg_database_scripts convert_msg_spec_to_json.py a').yields(null, JSON.stringify({foo: 1}), null)
-      .withArgs('rosrun msg_database_scripts convert_msg_spec_to_json.py b').yields(null, JSON.stringify({foo: 2}), null)
-      .withArgs('rosrun msg_database_scripts convert_msg_spec_to_json.py c').yields(null, JSON.stringify({foo: 3}), null);
+      .withArgs('rosrun rocon_protocols_web_scripts convert_msg_spec_to_json.py a').yields(null, JSON.stringify({foo: 1}), null)
+      .withArgs('rosrun rocon_protocols_web_scripts convert_msg_spec_to_json.py b').yields(null, JSON.stringify({foo: 2}), null)
+      .withArgs('rosrun rocon_protocols_web_scripts convert_msg_spec_to_json.py c').yields(null, JSON.stringify({foo: 3}), null);
     Message = require('../lib/msg');
     
 

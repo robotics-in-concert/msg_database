@@ -9,7 +9,7 @@ module.exports = exports = function(callback){
       return out.trim().split(/\n/);
     })
     .map(function(type){
-      return exec("rosrun msg_database_scripts convert_msg_spec_to_json.py "+type).spread(function(out){
+      return exec("rosrun rocon_protocols_web_scripts convert_msg_spec_to_json.py "+type).spread(function(out){
         return JSON.parse(out);
       });
     })
