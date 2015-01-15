@@ -5,35 +5,51 @@ rocon_protocols_web
 ## Installation
 * nodejs 설치 : [https://github.com/joyent/node/wiki/installing-node.js-via-package-manager#debian-and-ubuntu-based-linux-distributions](https://github.com/joyent/node/wiki/installing-node.js-via-package-manager#debian-and-ubuntu-based-linux-distributions)
 * 패키지 clone
-	* 임의의 경로에 최신 버젼을 내려받는다. (해당 경로)/msg_database 는 프로젝트 루트가 된다
+	* 임의의 경로에 최신 버젼을 내려받는다. (해당 경로)/rocon_protocols_webserver 는 프로젝트 루트가 된다
 	* `git clone git@github.com:robotics-in-concert/rocon_protocols_web.git`
 * 의존 패키지 설치
 	* (프로젝트 루트)/rocon_protocols_webserver 이동 후 `npm install`
 
 ## Run
-ROS 개발 환경 설정
-	* 다음 명령어를 입력하여 ROS 개발환경을 셋팅 함
+### ROS 개발 환경 설정
+* 다음 명령어를 입력하여 ROS 개발환경을 셋팅 함
 
 ```bash
 source /opt/ros/<ros version>/setup.bash
 ```
 
 
-* required environment variables
-  * `ROCON_PROTOCOLS_WEB_MONGO_URL` : 연결될 mongodb 의 URL (예, mongodb://localhost:27017/msg_database)
-  * `ROCON_PROTOCOLS_WEB_PORT` : API 웹 인터페이스 포트
-  * `ROCON_PROTOCOLS_WEB_ROCON_APPS_URL`
-  * `ROCON_PROTOCOLS_WEB_HIC_APPS_URL`
+### Configuration
+
+JSON 포멧으로 config 파일을 작성한다.
+
+```json
+{
+  "port": 10000,
+  "mongo_url": "mongodb://localhost:27017/rocon_protocols_web",
+  "rocon_apps_url": "https://raw.githubusercontent.com/robotics-in-concert/rocon_protocols_web/master/rocon_protocols_webserver/distro/rocon_apps/rocon_apps.yaml",
+  "hic_apps_url": "https://raw.githubusercontent.com/robotics-in-concert/rocon_protocols_web/master/rocon_protocols_webserver/distro/hic_apps/hic_apps.yaml"
+}
+```
+
+  * `mongo_url` : 연결될 mongodb 의 URL (예, mongodb://localhost:27017/rocon_protocols_web)
+  * `port` : API 웹 인터페이스 포트
+  * `rocon_apps_url` : rocon apps 목록을 기술한 YAML의 URL
+  * `hic_apps_url` : hic apps 목록을 기술한 YAML의 URL
 
 
-위의 환경 변수를 설정하고 (프로젝트 루트)/msg_database_server 에서 node index.js 실행
+### 실행
+(프로젝트 루트)/rocon_protocols_webserver 에서 `node index.js --config /path/to/config.json` 실행
+
+* parameters
+	* `--config /path/to/config.json` (optional) : config 파일의 경로
 
 
 ## REST API specification
 
 * Header : `Content-Type: application/json; charset=utf-8`
 
-msg_database 의 REST API 는 별도로 언급되지 않는 한 data format은  application/json, 텍스트 인코딩 type은  UTF-8 로 응답한다.
+rocon_protocols_web 의 REST API 는 별도로 언급되지 않는 한 data format은  application/json, 텍스트 인코딩 type은  UTF-8 로 응답한다.
 
 ### Administration Methods
 #### `api/ping`
@@ -101,7 +117,7 @@ type | 요청한 타입의 이름
 #### `/api/rocon_app`
 * Parameters : 없음
 * Method : GET
-* Returns : rapp.tar.gz 파일 을 통해 msg_database 에 등록된 rapp 들 중에서 interface를 정의한 rapp 목록을 리턴. 예,
+* Returns : rapp.tar.gz 파일 을 통해 rocon_protocols_web 에 등록된 rapp 들 중에서 interface를 정의한 rapp 목록을 리턴. 예,
 
 ```bash
 $ curl http://localhost:10000/api/rocon_app
@@ -155,7 +171,7 @@ rocon_apps.(app).public_interface.publishers | app 의 publisher 의 이름(name
 #### `/api/hic_app`
 * Parameters : 없음
 * Method : GET
-* Returns : msg_datadata 에 등록된 client app 중 interface 를 정의한 client app 목록을 리턴.
+* Returns : rocon_protocols_web DB 에 등록된 client app 중 interface 를 정의한 client app 목록을 리턴.
 
 ```bash
 $ curl "http://localhost:10000/api/hic_app"
