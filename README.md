@@ -1,13 +1,32 @@
 rocon_protocols_web
 ===================
 
-### rocon_protocols_web 
+
+## Installation
+* nodejs 설치 : [https://github.com/joyent/node/wiki/installing-node.js-via-package-manager#debian-and-ubuntu-based-linux-distributions](https://github.com/joyent/node/wiki/installing-node.js-via-package-manager#debian-and-ubuntu-based-linux-distributions)
+* 패키지 clone
+	* 임의의 경로에 최신 버젼을 내려받는다. (해당 경로)/msg_database 는 프로젝트 루트가 된다
+	* `git clone git@github.com:robotics-in-concert/rocon_protocols_web.git`
+* 의존 패키지 설치
+	* (프로젝트 루트)/rocon_protocols_webserver 이동 후 `npm install`
+
+## Run
+ROS 개발 환경 설정
+	* 다음 명령어를 입력하여 ROS 개발환경을 셋팅 함
+
+```bash
+source /opt/ros/<ros version>/setup.bash
+```
+
 
 * required environment variables
-  * `ROCON_PROTOCOLS_WEB_MONGO_URL`
-  * `ROCON_PROTOCOLS_WEB_PORT`
+  * `ROCON_PROTOCOLS_WEB_MONGO_URL` : 연결될 mongodb 의 URL (예, mongodb://localhost:27017/msg_database)
+  * `ROCON_PROTOCOLS_WEB_PORT` : API 웹 인터페이스 포트
   * `ROCON_PROTOCOLS_WEB_ROCON_APPS_URL`
   * `ROCON_PROTOCOLS_WEB_HIC_APPS_URL`
+
+
+위의 환경 변수를 설정하고 (프로젝트 루트)/msg_database_server 에서 node index.js 실행
 
 
 ## REST API specification
@@ -23,6 +42,12 @@ msg_database 의 REST API 는 별도로 언급되지 않는 한 data format은  
 * Method : GET
 * Returns : 텍스트 “pong” 리턴 (text/html)
 
+```bash
+$ curl http://localhost:10000/api/ping
+```
+```text
+pong
+```
 
 ### Message information query methods
 #### `/message_details`
@@ -31,6 +56,10 @@ msg_database 의 REST API 는 별도로 언급되지 않는 한 data format은  
   * type : 메세지 타입.
 * Method : GET
 * Returns : Parameter ‘type’ 으로 전달 받은 타입과 의존하는 모든 타입의 정보를 배열의 형태로 리턴.
+
+```bash
+$ curl "http://localhost:10000/api/message_details?type=std_msgs/String"
+```
 
 
 ```json
@@ -74,6 +103,9 @@ type | 요청한 타입의 이름
 * Method : GET
 * Returns : rapp.tar.gz 파일 을 통해 msg_database 에 등록된 rapp 들 중에서 interface를 정의한 rapp 목록을 리턴. 예,
 
+```bash
+$ curl http://localhost:10000/api/rocon_app
+```
 
 ```json
  [
@@ -124,6 +156,10 @@ rocon_apps.(app).public_interface.publishers | app 의 publisher 의 이름(name
 * Parameters : 없음
 * Method : GET
 * Returns : msg_datadata 에 등록된 client app 중 interface 를 정의한 client app 목록을 리턴.
+
+```bash
+$ curl "http://localhost:10000/api/hic_app"
+```
 
 ```json
 [
