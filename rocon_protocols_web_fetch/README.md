@@ -2,7 +2,10 @@
 Rocon Protocols Web Fetch
 =========================
 
-
+### Install
+```sh
+npm install rocon_protocols_web_fetch
+```
 
 ### Require
 
