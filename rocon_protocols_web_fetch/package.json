@@ -1,7 +1,7 @@
 {
-  "name": "rocon_protocols_web_fetcher",
+  "name": "rocon_protocols_web_fetch",
   "version": "0.0.1",
-  "description": "fetcher lib for rocon_protocols_web",
+  "description": "fetch lib for rocon_protocols_web",
   "main": "index.js",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha"
