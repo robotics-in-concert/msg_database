@@ -13,7 +13,7 @@ describe('rocon_app.js', function(){
 
   beforeEach(function(done){
     sinon.stub(request, 'get')
-      .withArgs('list.yaml').yields(null, null, yaml.dump({rocon_apps: ['item1.tgz']}))
+      .withArgs('list.yaml').yields(null, null, yaml.dump({rocon_apps: ['item1.tgz', 'item1.tgz']}))
       .withArgs('item1.tgz').returns({
         pipe: function(to){
           return fs.createReadStream(__dirname + "/samples/rocon_hue.tar.gz").pipe(to);
@@ -34,11 +34,17 @@ describe('rocon_app.js', function(){
 
   it('should fetch rocon_app', function(done){
     App('list.yaml', function(e, data){
+
       expect(e).to.be.null;
-      expect(data.length).to.equal(1);
+      expect(data.length).to.equal(2);
+
+      data.forEach(function(d){
+        expect(d).to.be.a('object');
+      });
+
 
       var hue = data[0];
-      var first = hue[0];
+      var first = hue;
 
       expect(first.rocon_apps).to.be.an('object')
 

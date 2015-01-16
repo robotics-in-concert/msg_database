@@ -1,6 +1,6 @@
 {
   "name": "rocon_protocols_web_fetch",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "fetch lib for rocon_protocols_web",
   "main": "index.js",
   "scripts": {

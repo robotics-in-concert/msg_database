@@ -20,7 +20,7 @@ inspect = R.rPartial(util.inspect, false, 10, true);
 extract_rapp_meta = function(url){
 
   var dest = Path.join(os.tmpdir(), "cento_authoring_rapp." + new Date().getTime());
-  console.log(dest);
+  // console.log(dest);
 
 
   var untarP = new Promise(function(resolve, reject){
@@ -41,7 +41,7 @@ extract_rapp_meta = function(url){
     return glob(dest + "/**/package.xml")
       // parse package (xml2js)
       .map(function(package_file){
-        console.log('parsing package file :', package_file);
+        // console.log('parsing package file :', package_file);
         var package_base = Path.dirname(package_file);
         return xml2js(fs.readFileSync(package_file, 'utf8'), {async: true, mergeAttrs: true, explicitArray: false}).then(function(js){
           var package = js.package;
@@ -86,7 +86,7 @@ extract_rapp_meta = function(url){
           var app = pack.rocon_apps[key];
           if(app.public_interface){
             var ifn = Path.join(Path.dirname(app.path), app.public_interface);
-            console.log(ifn);
+            // console.log(ifn);
 
             if(fs.existsSync(ifn)){
               var doc = yaml.safeLoad(fs.readFileSync(ifn, 'utf8'));
@@ -132,7 +132,7 @@ extract_rapp_meta = function(url){
         var rocon_apps = package_info.rocon_apps;
 
         R.mapObj.idx(function(v, key, obj){
-          console.log(key);
+          // console.log(key);
 
           if(v.parent_name && v.parent_name != ''){
             var pname = v.parent_name.split(/\//)[1];
@@ -148,12 +148,12 @@ extract_rapp_meta = function(url){
 
         return package_info;
 
-      })
-      .tap(function(x){
-        console.log('----------------------------- FINAL --------------------------------');
-        console.log(inspect(x));
-        console.log('----------------------------- /FINAL --------------------------------');
       });
+      // .tap(function(x){
+        // console.log('----------------------------- FINAL --------------------------------');
+        // console.log(inspect(x));
+        // console.log('----------------------------- /FINAL --------------------------------');
+      // });
   });
 
 }
@@ -168,6 +168,7 @@ exports = module.exports = function(repo_url, callback){
   return Utils.load_yaml(repo_url)
     .get('rocon_apps')
     .map(extract_rapp_meta)
+    .then(R.unnest)
     .done(
       function(data){ callback(null, data); },
       function(e){ callback(e); }
