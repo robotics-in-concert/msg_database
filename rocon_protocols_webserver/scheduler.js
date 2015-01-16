@@ -1,8 +1,4 @@
-var _ = require('lodash'),
-  R = require('ramda'),
-  MongoClient = require('mongodb').MongoClient,
-  async = require('async'),
-  express = require('express'),
+var MongoClient = require('mongodb').MongoClient,
   path = require('path'),
   CronJob = require('cron').CronJob,
   fs = require('fs'),
@@ -19,20 +15,7 @@ if(argv.config){
 
 MongoClient.connect(config.mongo_url, function(e, db){
   if(e) throw e;
-
   console.log('mongo connected');
-
-  var app = express();
-  app.set('views', path.join(__dirname, 'views'));
-  app.set('view engine', 'ejs');
-
-  server = app.listen(config.port, function(){
-    console.log('Listening on port %d', server.address().port);
-  });
-
-
-  require('./routes')(app, db);
-
 
   var job = new CronJob({
     cronTime: '0 0 * * * *', // every hour
@@ -43,9 +26,7 @@ MongoClient.connect(config.mongo_url, function(e, db){
     },
     start: true
   });
-
-
-
+  console.log('scheduler started');
 
 
 
