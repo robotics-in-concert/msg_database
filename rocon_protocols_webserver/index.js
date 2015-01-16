@@ -37,18 +37,12 @@ MongoClient.connect(config.mongo_url, function(e, db){
   var job = new CronJob({
     cronTime: '0 0 * * * *', // every hour
     onTick: function(){
-      require('./sync')(db);
-      require('./rapp_sync')(db, config.rocon_apps_url);
-      require('./hic_apps_sync')(db, config.hic_apps_url);
+      require('./sync_message')(db);
+      require('./sync_rocon_app')(db, config.rocon_apps_url);
+      require('./sync_hic_app')(db, config.hic_apps_url);
     },
     start: true
   });
-  // require('./client_apps_sync')(db);
-  // require('./rapp_sync')(db);
-  // require('./hic_apps_sync')(db);
-
-
-
 
 
 
