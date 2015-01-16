@@ -4,16 +4,16 @@ Rocon Protocols Web Fetch
 
 ### Install
 ```sh
-npm install rocon_protocols_web_fetch
+> npm install rocon_protocols_web_fetch
 ```
 
 ### Requirements
 
-아래의 두 명령이 실행가능하게 ROS 환경이 설정되어 있어야 합니다.
+아래의 두 명령이 실행가능하게 ROS 환경이 설정되어 있어야 합니다. 
+ROS환경 설정을 위해서는 http://wiki.ros.org/ROS/Installation 참고하시면 됩니다.
 
 * `rosmsg list`
-* `rosrun msg_database_scripts convert_msg_spec_to_json.py [type]`
-
+* `rosrun rocon_protocols_web_scripts convert_msg_spec_to_json.py [type]`
 
 ### Run
 
