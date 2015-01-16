@@ -40,9 +40,13 @@ JSON 포멧으로 config 파일을 작성한다.
 
 
 ### 실행
-(프로젝트 루트)/rocon_protocols_webserver 에서 `node index.js --config /path/to/config.json` 실행
+(프로젝트 루트)/rocon_protocols_webserver 에서 
 
-* parameters
+* scheduler 실행 : `node scheduler.js [options]`
+* web interface 실행 : `node web.js [options]`
+
+
+* 공통 parameters
 	* `--config /path/to/config.json` (optional) : config 파일의 경로
 
 
