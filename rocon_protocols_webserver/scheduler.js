@@ -13,6 +13,15 @@ if(argv.config){
   config = require("./config");
 }
 
+
+
+// set default url
+if(!config.rocon_apps_url)
+  config.rocon_apps_url = 'file://' + __dirname + '/distro/rocon_apps/rocon_apps.yaml';
+
+if(!config.hic_apps_url)
+  config.hic_apps_url = 'file://' + __dirname + '/distro/hic_apps/hic_apps.yaml';
+
 MongoClient.connect(config.mongo_url, function(e, db){
   if(e) throw e;
   console.log('mongo connected');
