@@ -1,12 +1,20 @@
 var R = require('ramda'),
     Promise = require('bluebird'),
     request = Promise.promisifyAll(require('request')),
+    fs = Promise.promisifyAll(require('fs')),
     yaml = require('js-yaml'),
     URL = require('url');
 
 module.exports = exports = {
   load_yaml: function(url){
-    return request.getAsync(url).then(R.compose(yaml.safeLoad, R.nth(1)));
+    var u = URL.parse(url);
+    if(u.protocol == 'file:'){
+      return fs.readFileAsync(u.path).then(function(body){
+        return yaml.safeLoad(body);
+      });
+    }else{
+      return request.getAsync(url).then(R.compose(yaml.safeLoad, R.nth(1)));
+    }
   },
 
   resolve_url: R.curry(URL.resolve),
