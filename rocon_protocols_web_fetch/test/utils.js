@@ -2,6 +2,7 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 var request = require('request');
+var fs = require('fs');
 
 describe('utils.js', function(){
   var Utils;
@@ -11,6 +12,9 @@ describe('utils.js', function(){
       .yields(null, null, '- a : 10');
 
     Utils = require('../lib/utils');
+
+    sinon.stub(fs, 'readFile')
+      .yields(null, '- b : 20');
     done();
 
   });
@@ -18,6 +22,7 @@ describe('utils.js', function(){
 
   afterEach(function(done){
     request.get.restore();
+    fs.readFile.restore();
     done();
 
   });
@@ -35,15 +40,24 @@ describe('utils.js', function(){
     Utils.load_yaml('url')
       .then(function(data){
         expect(data).not.to.be.null
-        expect(data).to.equal({a: 10})
+        expect(data).to.deep.equal([{a: 10}])
         done();
       })
       .catch(function(e){
         done();
       });
-
-
-
+  });
+  it('should fetch url with file scheme', function(done){
+    Utils.load_yaml('file:///url')
+      .then(function(data){
+        expect(data).not.to.be.null
+        expect(data).to.deep.equal([{b: 20}])
+        done();
+      })
+      .catch(function(e){
+        expect(e).to.be.null
+        done();
+      });
   });
 
 
