@@ -35,6 +35,8 @@ MongoClient.connect(config.mongo_url, function(e, db){
     },
     start: true
   });
+  require('./sync_rocon_app')(db, config.rocon_apps_url);
+  require('./sync_hic_app')(db, config.hic_apps_url);
   console.log('scheduler started');
 
 
