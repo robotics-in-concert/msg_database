@@ -3,3 +3,4 @@ rocon_apps:
   - "http://files.yujinrobot.com/rocon/rapp_repository/robosem_bridge.tar.gz"
   - "http://files.yujinrobot.com/rocon/rapp_repository/rocon_ninja_block.tar.gz"
   - "http://files.yujinrobot.com/rocon/rapp_repository/rocon_hue.tar.gz"
+  - "http://files.yujinrobot.com/rocon/rapp_repository/rocon_auto_door.tar.gz.tar.gz"
