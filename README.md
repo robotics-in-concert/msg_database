@@ -43,7 +43,7 @@ JSON 포멧으로 config 파일을 작성한다.
 (프로젝트 루트)/rocon_protocols_webserver 에서 
 
 * scheduler 실행 : `node scheduler.js [options]`
-  * `--start-sync-mesasge` : scheduler 시작시 message 동기화 시작.
+  * `--start-sync-messasge` : scheduler 시작시 message 동기화 시작.
 * web interface 실행 : `node web.js [options]`
 
 
