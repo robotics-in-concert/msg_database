@@ -52,6 +52,10 @@ var fetch_type = function(type, db, fetch_type_callback){
 
 module.exports = function(app, db){
   var coll = db.collection('message_details');
+  app.get('/', function(req, res){
+    res.render('messages');
+
+  });
 
   app.get('/message_detail', function(req, res){
     var type = req.query.type;
@@ -139,6 +143,12 @@ module.exports = function(app, db){
     });
 
 
+  });
+  app.get('/api/all_message_details', function(req, res){
+    var coll = db.collection('message_details');
+    coll.find({}).toArray(function(e, rows){
+      res.send(rows);
+    });
   });
   app.get('/api/message_details', function(req, res){
     var type = req.query.type;

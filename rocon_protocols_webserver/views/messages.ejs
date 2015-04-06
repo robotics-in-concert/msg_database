@@ -1,0 +1,25 @@
+<!doctype html>
+<html ng-app="protocols-web">
+  <head>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/g/bootstrap@3.3.1(css/bootstrap.min.css),highlight.js(styles/github.min.css)" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+
+  </head>
+
+  <body ng-controller="messagesController">
+    <div class="">
+
+      <ul>
+        <li ng-repeat="detail in messages">
+        {{detail.type}}
+        </li>
+      </ul>
+
+    </div>
+    <script src="http://cdn.jsdelivr.net/g/jquery,angularjs,angular.ui-router,angularjs(angular-route.min.js),lodash,angular.bootstrap(ui-bootstrap-tpls.min.js)" type="text/javascript"></script>
+    <script src="/bundle.js"></script>
+  </body>
+
+</html>
+
