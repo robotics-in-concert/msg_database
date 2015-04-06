@@ -8,6 +8,7 @@ module.exports = exports = function(db){
       console.error('failed to sync message', e);
       return;
     }
+    if(!message_types){ return; }
     message_types.forEach(function(detail){
       var type = detail.type;
       coll.update({type: type}, {$set: {detail: detail}}, {w:1, upsert: true}, function(e2, result){
