@@ -15,14 +15,22 @@
         <form>
           <div class="form-group">
             <label>Select type</label>
-            <ui-select ng-model="item.selected" placeholder="Select Type ..." theme="select2" style="width: 100%;">
+            <ui-select ng-model="type.selected" placeholder="Select Type ..." theme="select2" style="width: 100%;" on-select="typeSelected($item, $model)" >
                <ui-select-match placeholder="Pick one...">{{$select.selected.type}}</ui-select-match>
                 <ui-select-choices repeat="detail in messages | filter: $select.search track by detail.type">
                     <div ng-bind-html="detail.type | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
           </div>
+
+
+
+          <div ng-if="type.selected">
+            <h3>{{type.selected.type}}</h3>
+            <pre>{{type.selected.detail.text}}</pre>
+          </div>
         </form>
+
 
         <!-- <ul> -->
           <!-- <li ng-repeat="detail in messages"> -->
