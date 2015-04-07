@@ -26,8 +26,54 @@
 
 
           <div ng-if="type.selected">
-            <h3>{{type.selected.type}}</h3>
-            <pre>{{type.selected.detail.text}}</pre>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{type.selected.type}}</h3>
+              </div>
+              <div class="panel-body">
+                <pre>{{type.selected.detail.text}}</pre>
+
+
+                <div class="well">
+                  <label>Field</label>
+                  <ui-select ng-model="field.selected" theme="select2" style="width: 100%;">
+                     <ui-select-match placeholder="Pick one...">{{$select.selected}}</ui-select-match>
+                      <ui-select-choices repeat="fn in type.selected.detail.fieldnames | filter: $select.search track by fn">
+                          <div ng-bind-html="fn | highlight: $select.search"></div>
+                      </ui-select-choices>
+                  </ui-select>
+
+
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input ng-model="field.name" type="text" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>Value</label>
+                    <input ng-model="field.value" type="text" class="form-control">
+                  </div>
+                  <button class="btn btn-default" ng-click="saveFieldValue()">Save</btn>
+                </div>
+
+
+
+                <ul class="list-unstyled">
+                  <li ng-repeat="field_value in type.selected.field_values">
+                    {{field_value | json}}
+                  </li>
+                
+                </ul>
+
+
+                <button class="btn-primary btn">Save</button>
+              </div>
+            </div>
+
+
+
+
+
+
           </div>
         </form>
 
