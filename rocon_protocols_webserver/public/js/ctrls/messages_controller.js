@@ -6,11 +6,12 @@ function messagesController($scope, $http){
 
   $scope.type = {}
   $scope.field = {}
-  $scope.typeSelected = function(item, model){
-    console.log(item);
-    console.log(model);
-  };
-  $scope.saveFieldValue = function(){
+  // $scope.typeSelected = function(item, model){
+    // console.log(item);
+    // console.log(model);
+  // };
+
+  $scope.addFieldValue = function(){
     if(!$scope.type.selected.field_values){
       $scope.type.selected.field_values = [];
     }
@@ -19,6 +20,7 @@ function messagesController($scope, $http){
 
 
   };
+
   $scope.refreshMessages = function(name){
     console.log('---', name);
     if(name.length > 0){
@@ -32,12 +34,22 @@ function messagesController($scope, $http){
   };
 
   $http.get('/api/all_message_details').then(function(res){
-
     $scope.allMessages = res.data;
-
-
     return;
   });
+
+
+  $scope.saveFieldValues = function(type){
+    var selected = $scope.type.selected;
+    var type = selected.type;
+    $http.put("/api/message_details/"+encodeURIComponent(type), {field_values: selected.field_values})
+      .then(function(res){
+        alert('updated');
+
+      });
+
+
+  };
 
 };
 

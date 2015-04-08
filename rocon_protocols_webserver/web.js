@@ -3,6 +3,7 @@ var _ = require('lodash'),
   express = require('express'),
   path = require('path'),
   fs = require('fs'),
+  bodyParser = require('body-parser'),
   argv = require('minimist')(process.argv.slice(2));
 
 
@@ -21,6 +22,7 @@ MongoClient.connect(config.mongo_url, function(e, db){
 
   var app = express();
   app.use(express.static('public'));
+  app.use(bodyParser.json({limit: '50mb'}));
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs');
 

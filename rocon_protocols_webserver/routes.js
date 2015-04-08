@@ -144,6 +144,17 @@ module.exports = function(app, db){
 
 
   });
+  app.put('/api/message_details/:type', function(req, res){
+    var coll = db.collection('message_details');
+
+    coll.update({type: req.params.type}, {$set: req.body}, function(err, result){
+
+      if(err)
+        res.send({error: err});
+      else
+        res.send(result);
+    });
+  });
   app.get('/api/all_message_details', function(req, res){
     var coll = db.collection('message_details');
     coll.find({}).toArray(function(e, rows){
