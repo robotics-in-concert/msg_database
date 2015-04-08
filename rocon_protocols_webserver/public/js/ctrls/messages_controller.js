@@ -1,3 +1,4 @@
+var _ = require('lodash');
 
 /* @ngInject */
 function messagesController($scope, $http){
@@ -13,7 +14,8 @@ function messagesController($scope, $http){
     if(!$scope.type.selected.field_values){
       $scope.type.selected.field_values = [];
     }
-    $scope.type.selected.field_values.push($scope.field);
+    $scope.type.selected.field_values.push(_.clone($scope.field));
+    $scope.field = {}
 
 
   };

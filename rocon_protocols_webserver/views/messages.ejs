@@ -36,7 +36,7 @@
 
                 <div class="well">
                   <label>Field</label>
-                  <ui-select ng-model="field.selected" theme="select2" style="width: 100%;">
+                  <ui-select ng-model="field.name" theme="select2" style="width: 100%;">
                      <ui-select-match placeholder="Pick one...">{{$select.selected}}</ui-select-match>
                       <ui-select-choices repeat="fn in type.selected.detail.fieldnames | filter: $select.search track by fn">
                           <div ng-bind-html="fn | highlight: $select.search"></div>
@@ -46,7 +46,7 @@
 
                   <div class="form-group">
                     <label>Name</label>
-                    <input ng-model="field.name" type="text" class="form-control">
+                    <input ng-model="field.const" type="text" class="form-control">
                   </div>
                   <div class="form-group">
                     <label>Value</label>
@@ -57,7 +57,7 @@
 
 
 
-                <ul class="list-unstyled">
+                <ul>
                   <li ng-repeat="field_value in type.selected.field_values">
                     {{field_value | json}}
                   </li>
