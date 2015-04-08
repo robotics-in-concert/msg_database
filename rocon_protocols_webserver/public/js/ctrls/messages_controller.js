@@ -19,10 +19,21 @@ function messagesController($scope, $http){
 
 
   };
+  $scope.refreshMessages = function(name){
+    console.log('---', name);
+    if(name.length > 0){
+      $scope.messages =  _.filter($scope.allMessages, function(msg){
+        return msg.type.toLowerCase().indexOf(name.toLowerCase()) >= 0;
+
+      });
+    }
+
+
+  };
 
   $http.get('/api/all_message_details').then(function(res){
 
-    $scope.messages = res.data;
+    $scope.allMessages = res.data;
 
 
     return;

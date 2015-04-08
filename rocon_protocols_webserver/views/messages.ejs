@@ -17,7 +17,9 @@
             <label>Select type</label>
             <ui-select ng-model="type.selected" placeholder="Select Type ..." theme="select2" style="width: 100%;" on-select="typeSelected($item, $model)" >
                <ui-select-match placeholder="Pick one...">{{$select.selected.type}}</ui-select-match>
-                <ui-select-choices repeat="detail in messages | filter: $select.search track by detail.type">
+               <ui-select-choices repeat="detail in messages | filter: $select.search track by detail.type"
+                refresh="refreshMessages($select.search)"
+                refresh-dalay="0">
                     <div ng-bind-html="detail.type | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
@@ -52,7 +54,7 @@
                     <label>Value</label>
                     <input ng-model="field.value" type="text" class="form-control">
                   </div>
-                  <button class="btn btn-default" ng-click="saveFieldValue()">Save</btn>
+                  <button class="btn btn-default" ng-click="saveFieldValue()">Add</btn>
                 </div>
 
 
