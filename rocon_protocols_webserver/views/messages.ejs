@@ -61,7 +61,7 @@
 
                 <ul>
                   <li ng-repeat="field_value in type.selected.field_values">
-                    {{field_value | json}}
+                  {{field_value | json}} <a href="" ng-click="deleteFieldValue($index)">Delete</a>
                   </li>
                 
                 </ul>

@@ -15,6 +15,8 @@ function messagesController($scope, $http){
     if(!$scope.type.selected.field_values){
       $scope.type.selected.field_values = [];
     }
+    if(_.isEmpty($scope.field)) return;
+
     $scope.type.selected.field_values.push(_.clone($scope.field));
     $scope.field = {}
 
@@ -39,6 +41,9 @@ function messagesController($scope, $http){
   });
 
 
+  $scope.deleteFieldValue = function(idx){
+    $scope.type.selected.field_values.splice(idx, 1);
+  };
   $scope.saveFieldValues = function(type){
     var selected = $scope.type.selected;
     var type = selected.type;
