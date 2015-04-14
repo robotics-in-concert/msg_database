@@ -17,6 +17,9 @@ var fetch_type = function(type, db, fetch_type_callback){
       if(e) return done(e);
       if(row){
         var detail = row.detail;
+        if(row.field_values){
+          detail.field_values = row.field_values;
+        }
         results.push(detail);
         var subTypes = _.select(row.detail.fieldtypes, function(t){
           return t.indexOf('/') >= 0;
@@ -145,6 +148,8 @@ module.exports = function(app, db){
 
   });
   app.put('/api/message_details/:type', function(req, res){
+    console.log(req.params.type);
+
     var coll = db.collection('message_details');
 
     coll.update({type: req.params.type}, {$set: req.body}, function(err, result){
