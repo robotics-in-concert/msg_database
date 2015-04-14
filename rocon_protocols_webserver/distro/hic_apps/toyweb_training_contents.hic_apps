@@ -6,7 +6,7 @@
     max: -1
   interface:
     publishers: 
-      - name: send_action
+      - name: /send_action
         type: std_msgs/String
     subscribers:
       - name: touch_sensor_event
