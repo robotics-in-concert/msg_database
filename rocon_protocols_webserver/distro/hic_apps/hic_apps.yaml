@@ -6,3 +6,4 @@ hic_apps:
   - "https://raw.githubusercontent.com/robotics-in-concert/rocon_protocols_web/master/rocon_protocols_webserver/distro/hic_apps/indoor_2d_map_prep.hic_apps"
   - "https://raw.githubusercontent.com/robotics-in-concert/rocon_protocols_web/master/rocon_protocols_webserver/distro/hic_apps/turtlebot_pairing.hic_apps"
   - "https://raw.githubusercontent.com/robotics-in-concert/rocon_protocols_web/master/rocon_protocols_webserver/distro/hic_apps/welcome.hic_apps"
+  - "https://raw.githubusercontent.com/robotics-in-concert/rocon_protocols_web/master/rocon_protocols_webserver/distro/hic_apps/toyweb_training_contents.hic_apps"
