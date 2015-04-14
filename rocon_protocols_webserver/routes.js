@@ -149,10 +149,11 @@ module.exports = function(app, db){
 
     coll.update({type: req.params.type}, {$set: req.body}, function(err, result){
 
-      if(err)
+      if(err){
         res.send({error: err});
-      else
-        res.send(result);
+      }else{
+        res.send({affected: result});
+      }
     });
   });
   app.get('/api/all_message_details', function(req, res){
