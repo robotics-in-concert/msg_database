@@ -1,0 +1,14 @@
+- name: com.UnityPlayerNativeActivity
+  compatibility: rocon:/*/*/*/jellybean|ice_cream_sandwich|kitkat
+  defaults:
+    display_name: Training Contents
+    description: Training Contents
+    max: -1
+  interface:
+    publishers: []
+    subscribers:
+      - name: touch_sensor_event
+        type: std_msgs/String
+    action_clients: []
+    action_servers: []
+    services: []
