@@ -1,0 +1,99 @@
+<!doctype html>
+<html ng-app="protocols-web">
+  <head>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/g/bootstrap@3.3.1(css/bootstrap.min.css),highlight.js(styles/github.min.css)" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/select2/3.5.2/select2.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/g/angular.ui-select(select.min.css)" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+
+  </head>
+
+  <body ng-controller="messagesController">
+    <div class="container">
+      <div class="">
+        <form>
+          <div class="form-group">
+            <label>Select type</label>
+            <ui-select ng-model="type.selected" placeholder="Select Type ..." theme="select2" style="width: 100%;" on-select="typeSelected($item, $model)" >
+               <ui-select-match placeholder="Pick one...">{{$select.selected.type}}</ui-select-match>
+               <ui-select-choices repeat="detail in messages | filter: $select.search track by detail.type"
+                refresh="refreshMessages($select.search)"
+                refresh-dalay="0">
+                    <div ng-bind-html="detail.type | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+          </div>
+
+
+
+          <div ng-if="type.selected">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{type.selected.type}}</h3>
+              </div>
+              <div class="panel-body">
+                <pre>{{type.selected.detail.text}}</pre>
+
+
+                <div class="well">
+                  <label>Field</label>
+                  <ui-select ng-model="field.name" theme="select2" style="width: 100%;">
+                     <ui-select-match placeholder="Pick one...">{{$select.selected}}</ui-select-match>
+                      <ui-select-choices repeat="fn in type.selected.detail.fieldnames | filter: $select.search track by fn">
+                          <div ng-bind-html="fn | highlight: $select.search"></div>
+                      </ui-select-choices>
+                  </ui-select>
+
+
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input ng-model="field.const" type="text" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>Value</label>
+                    <input ng-model="field.value" type="text" class="form-control">
+                  </div>
+                  <button class="btn btn-default" ng-click="addFieldValue()">Add</btn>
+                </div>
+
+
+
+                <ul>
+                  <li ng-repeat="field_value in type.selected.field_values">
+                  {{field_value | json}} <a href="" ng-click="deleteFieldValue($index)">Delete</a>
+                  </li>
+                
+                </ul>
+
+
+                <button class="btn-primary btn" ng-click="saveFieldValues()">Save</button>
+              </div>
+            </div>
+
+
+
+
+
+
+          </div>
+        </form>
+
+
+        <!-- <ul> -->
+          <!-- <li ng-repeat="detail in messages"> -->
+          <!-- {{detail.type}} -->
+          <!-- </li> -->
+        <!-- </ul> -->
+
+
+
+
+      </div>
+    </div>
+    <script src="http://cdn.jsdelivr.net/g/jquery,angularjs,angular.ui-router,angular.ui-select,angularjs(angular-route.min.js),angularjs(angular-sanitize.min.js),lodash,angular.bootstrap(ui-bootstrap-tpls.min.js),select2" type="text/javascript"></script>
+    <script src="/bundle.js"></script>
+  </body>
+
+</html>
+
