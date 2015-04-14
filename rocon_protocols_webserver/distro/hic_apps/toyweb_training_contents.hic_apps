@@ -5,7 +5,9 @@
     description: Training Contents
     max: -1
   interface:
-    publishers: []
+    publishers: 
+      - name: send_action
+        type: std_msgs/String
     subscribers:
       - name: touch_sensor_event
         type: std_msgs/String
