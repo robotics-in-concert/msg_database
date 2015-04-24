@@ -1,0 +1,30 @@
+- name: web_url(http://www.google.com)
+  compatibility: rocon:/*
+  defaults:
+    display_name: 'Web Search'
+    description: 'Web Surfer'
+    max: -1
+
+- name: web_app(http://__WEBSERVER_ADDRESS__/vm_delivery_order/index.html)
+  compatibility: rocon:/*/*/indigo/chrome|firefox
+  defaults:
+    display_name: VM Drink Delivery Order
+    description: Delivery drink from vm to a desk 
+  parameters:
+    - name: rosbridge_address
+      description: Rosbridge address
+    - name: rosbridge_port  
+      description: rosbridge port
+    - name: extra_data
+      description: target desk
+  interface:
+    publishers:
+      - name: send_order
+        type: simple_delivery_msgs/DeliveryOrder 
+    subscribers: 
+      - name: delivery_status
+        type: simple_delivery_msgs/DeliveryStatus
+      - name: tables
+        type: yocs_msgs/Tables
+    action_clients: []
+    action_servers: []
