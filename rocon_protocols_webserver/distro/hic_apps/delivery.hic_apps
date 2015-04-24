@@ -4,28 +4,3 @@
     display_name: 'Web Search'
     description: 'Web Surfer'
     max: -1
-
-- name: web_app(http://192.168.10.23/concert_common_web_interface/order_app/index.html)
-  compatibility: rocon:/*/*/indigo
-  defaults:
-    display_name: Delivery Order App
-    description: Exhibition web menu
-  parameters:
-    - name: rosbridge_address
-      description: Rosbridge address
-    - name: rosbridge_port  
-      description: rosbridge port
-    - name: extra_data
-      description: table number 
-  interface:
-    publishers:
-      - name: send_order
-        type: simple_delivery_msgs/DeliveryOrder 
-    subscribers: 
-      - name: delivery_status
-        type: simple_delivery_msgs/DeliveryStatus
-      - name: tables
-        type: yocs_msgs/TableList
-    action_clients: []
-    action_servers: []
-    services: []
