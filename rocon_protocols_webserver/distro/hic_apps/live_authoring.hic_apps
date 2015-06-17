@@ -8,3 +8,7 @@
     publishers:
       - name: /voice_command
         type: std_msgs/String
+    subscribers: []
+    action_clients: []
+    action_servers: []
+    services: []
