@@ -17,6 +17,7 @@
       description: rosbridge port
     - name: discard_btn_name
       description: filtering unused button about pickup point
+
   interface:
     publishers:
       - name: send_order
@@ -25,7 +26,7 @@
       - name: delivery_status
         type: simple_delivery_msgs/DeliveryStatus
       - name: tables
-        type: yocs_msgs/Tables
+        type: yocs_msgs/TableList
     action_clients: []
     action_servers: []
     services: []
