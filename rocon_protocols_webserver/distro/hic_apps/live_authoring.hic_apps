@@ -1,0 +1,10 @@
+- name: com.github.turtlebot.turtlebot_android.voice_commander.indigo
+  compatibility: rocon:/*/*/*/jellybean|ice_cream_sandwich|kitkat
+  defaults:
+    display_name: Voice commander
+    description: Voice commander to control robot
+    max: -1
+  interface:
+    publishers:
+      - name: /voice_command
+        type: std_msgs/String
