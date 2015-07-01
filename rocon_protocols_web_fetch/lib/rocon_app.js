@@ -136,11 +136,13 @@ extract_rapp_meta = function(url){
 
           if(v.parent_name && v.parent_name != ''){
             var pname = v.parent_name.split(/\//)[1];
-            if(!rocon_apps[pname].children){
-              rocon_apps[pname].children = [v];
-            }else{
-              rocon_apps[pname].children.push(v);
-            };
+            if (rocon_apps[pname] !== undefined){
+                if(!rocon_apps[pname].children){
+                  rocon_apps[pname].children = [v];
+                }else{
+                  rocon_apps[pname].children.push(v);
+                };
+            }
             delete package_info.rocon_apps[key]
           }
         })(rocon_apps);
