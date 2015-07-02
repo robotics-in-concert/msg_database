@@ -211,3 +211,16 @@ interface | 인터페이스 정의
 interface.name | 인터페이스 이름, (클라이언트에서 publish 할 토픽의 이름)
 interface.type | 인터페이스 타입, (클라이언트에서 publish 할 데이터의 타입)
 
+## 개발자 환경 설정
+* node-dev 설치 
+ * node 의 재시작 없이 소스 저장하면 자동으로 노드가 재시작 됨
+* config.json 셋팅
+ * protocol webserver 구동시 필요한 정보
+* rocon_protocol_web_fetch local 경로에 link
+ * 다음 명령어 실행
+  ```
+  > cd rocon_protocol_web_fetch
+  > npm link
+  > cd ../rocon_protocol_webserver
+  > npm link rocon_protocol_web_fetch
+  ```
