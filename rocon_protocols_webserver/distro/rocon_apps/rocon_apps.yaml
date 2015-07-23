@@ -6,3 +6,4 @@ rocon_apps:
   - "http://files.yujinrobot.com/rocon/rapp_repository/rocon_auto_door.tar.gz"
   - "http://files.yujinrobot.com/rocon/rapp_repository/rocon_apps.index.tar.gz"
   - "http://files.yujinrobot.com/rocon/rapp_repository/nao_rapp.index.tar.gz"
+  - "http://files.yujinrobot.com/rocon/rapp_repository/rapix_bridge.index.tar.gz"
